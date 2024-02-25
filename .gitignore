@@ -1,0 +1,5 @@
+.mypy_cache
+.env
+email.txt
+functions.py
+make_connection.py
