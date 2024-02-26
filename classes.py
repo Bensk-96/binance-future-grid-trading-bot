@@ -2,6 +2,7 @@ from binance.client import Client
 import pandas as pd
 import requests
 from decouple import config
+import time
 
 api = config("API")
 api_secret = config("API_SECRET")
@@ -139,6 +140,8 @@ class Bot:
             df1 = pd.DataFrame(x)
             if len(df1) == 0:
                 self.draw_grid(self.n)
+            time.sleep(1)  # Sleep after checking open orders
+
             y = client.futures_position_information(symbol=self.symbol)
             df2 = pd.DataFrame(y)
             df2 = df2.loc[df2["positionAmt"] != "0.000"]
@@ -146,20 +149,24 @@ class Bot:
                 direction = self.get_direction(self.symbol)
                 try:
                     if direction == "LONG":
-                        print(f"{self.symbol} close buy")
+                        print("close buy")
                         self.close_sell_orders(self.symbol)
                     if direction == "SHORT":
-                        print(f"{self.symbol} close sell")
+                        print("close sell")
                         self.close_buy_orders(self.symbol)
                 except:
                     pass
+                time.sleep(1)  # Sleep after closing orders
+
                 price0, amount0 = self.cal_tp_level(self.symbol, self.tp)
                 self.place_tp_order(self.symbol, price0, amount0, direction)
+                time.sleep(1)  # Sleep after placing TP order
+
                 is_ok = True
                 while is_ok:
                     try:
                         price1, amount1 = self.cal_tp_level(self.symbol, self.tp)
-                        print(f"symbol :{self.symbol} price: {price1} amount: {amount1}")
+                        print(f"price: {price1} amount: {amount1}")
                         if price1 != price0 or amount1 != amount0:
                             if direction == "LONG":
                                 self.close_sell_orders(self.symbol)
@@ -168,6 +175,8 @@ class Bot:
                             self.place_tp_order(self.symbol, price1, amount1, direction)
                             price0 = price1
                             amount0 = amount1
+                        time.sleep(1)  # Sleep within loop after placing TP order
+                        print("sleep for 1 s")
                     except:
                         pass
 
@@ -180,4 +189,8 @@ class Bot:
                             is_ok = False
                         except:
                             pass
+                    time.sleep(1)  # Sleep after checking position information
+                print("sleep for 1 s")
 
+            time.sleep(1)  # Sleep at the end of the while loop
+            print("sleep for 1 s")
