@@ -1,4 +1,4 @@
-Binance Futures Trading with Python | Build a Market Maker
+Binance Futures Trading with Python | Build a Grid Trading Bot
 
 https://www.udemy.com/course/binance-futures-trading-with-python-build-a-market-maker/?couponCode=ST15MT31224
 
@@ -15,3 +15,5 @@ https://www.udemy.com/course/binance-futures-trading-with-python-build-a-market-
 - Selecting Suitable Market Conditions for Market Making Strategy
 
 ![image](https://github.com/Bensk-96/binance-future-market-maker/assets/91371262/b9f8f5a7-c947-44d9-a62b-a6089af54869)
+
+Grid trading, on the other hand, is a method where a trader sets up a network of buy and sell orders at predetermined price intervals around a set price level. This strategy capitalizes on the natural market volatility by executing trades when the price hits these predefined levels. The primary aim is to profit from small fluctuations in price, regardless of the market's overall direction.
